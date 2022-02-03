@@ -1,17 +1,11 @@
-# Inspired by https://github.com/TheMorpheus407
-
-
 import turtle
 
 window = turtle.Screen()
-
 window.bgcolor("black")
-window.title("Tiefensuche")
-window.setup(1600, 900)
-
-start_x =  10
+window.title("Tiefensuche im Labyrinth")
+window.setup(1600,900)
+start_x = 10
 start_y = 33
-
 end_x = 33
 end_y = 32
 
@@ -23,15 +17,22 @@ class Wall(turtle.Turtle):
         self.penup()
         self.speed(0)
 
-class Green(Wall):
-    def __init__(self):
-        Wall.__init__(self)
-        self.color("green")
 
-class Red(Wall):
+class Green(turtle.Turtle):
     def __init__(self):
-        Wall.__init__(self)
+        turtle.Turtle.__init__(self)
+        self.shape("square")
+        self.color("green")
+        self.penup()
+        self.speed(0)
+
+class Red(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.shape("square")
         self.color("red")
+        self.penup()
+        self.speed(0)
 
 grid = [
 "1111111111111111111111111111111111",
@@ -71,8 +72,8 @@ grid = [
 "0000000000000000000000000000000000"]
 
 def paint_blob(x, y, blob):
-    screen_x = -500 + (x*24)
-    screen_y = 400 - (y*24)
+    screen_x = -700 + (x * 24)
+    screen_y = 400 - (y * 24)
     blob.goto(screen_x, screen_y)
     blob.stamp()
 
@@ -80,58 +81,48 @@ def paint_maze(grid):
     for y in range(len(grid)):
         for x in range(len(grid[y])):
             char = grid[y][x]
-
             if char == "s":
-                print(f"start x: {x}")
-                print(f"start y: {y}")
+                print("start x = " + str(x) )
+                print("start y = " + str(y) )
             if char == "e":
-                print(f"end x: {x}")
-                print(f"end y: {y}")
+                print("end x = " + str(x) )
+                print("end y = " + str(y) )
 
             if char == "0":
                 paint_blob(x, y, wall)
-
             if char == "e":
                 paint_blob(x, y, green)
-
             if char == "s":
                 paint_blob(x, y, red)
 
-def _depthFirstSearch(visited, x, y):
+def _tiefensuche(visited, x, y):
     visited[y][x] = True
-
     if x == end_x and y == end_y:
         window.exitonclick()
-
     paint_blob(x, y, red)
+    print("Visited " + str(x) + ", " + str(y) + ".")
+    if y - 1 >= 0 and grid[y-1][x] != "0" and not visited[y-1][x]:
+        _tiefensuche(visited, x, y-1)
+    if x + 1 < 35 and grid[y][x+1] != "0" and not visited[y][x+1]:
+        _tiefensuche(visited, x+1, y)
+    if x - 1 >= 0 and grid[y][x-1] != "0" and not visited[y][x-1]:
+        _tiefensuche(visited, x - 1 , y)
+    if y + 1 < 35 and grid[y + 1][x] != "0" and not visited[y+1][x]:
+        _tiefensuche(visited, x, y + 1)
 
-    if x + 1 < 35 and not visited[y][x + 1] and grid[y][x + 1] != "0":
-        _depthFirstSearch(visited, x + 1, y)
- 
-    if  x - 1 > 0 and not visited[y][x - 1] and grid[y][x - 1] != "0":
-        _depthFirstSearch(visited, x - 1, y)
-
-    if y + 1 < 35 and not visited[y + 1][x] and grid[y + 1][x] != "0":
-        _depthFirstSearch(visited, x, y + 1)
-
-    if y - 1 > 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
-        _depthFirstSearch(visited, x, y - 1)
-
-def depthFirstSearch():
+def tiefensuche():
     visited = []
-    for _ in range(len(grid)):
+    for i in range(len(grid)):
         l = []
-        for _ in range(len(grid[0])):
+        for j in range(len(grid[0])):
             l.append(False)
         visited.append(l)
-    visited[0][0] = True
-    _depthFirstSearch(visited, start_x, start_y)
-
+    _tiefensuche(visited, start_x, start_y)
 
 if __name__ == "__main__":
     wall = Wall()
-    green = Green()
     red = Red()
+    green = Green()
     paint_maze(grid)
-    depthFirstSearch()
+    tiefensuche()
     window.exitonclick()
