@@ -1,6 +1,8 @@
+# Inspired by https://github.com/TheMorpheus407
+
+
 import turtle
 
-from idna import valid_string_length
 window = turtle.Screen()
 
 window.bgcolor("black")
