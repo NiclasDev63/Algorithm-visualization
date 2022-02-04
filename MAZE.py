@@ -1,12 +1,10 @@
 # Inspired by https://github.com/TheMorpheus407
-
-
 import turtle
 
 window = turtle.Screen()
 
 window.bgcolor("black")
-window.title("Tiefensuche")
+window.title("Algorithm testing")
 window.setup(1600, 900)
 
 start_x =  10
@@ -117,15 +115,18 @@ def _depthFirstSearch(visited, x, y):
     if y - 1 > 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
         _depthFirstSearch(visited, x, y - 1)
 
+
 def depthFirstSearch():
-    visited = []
-    for _ in range(len(grid)):
-        l = []
-        for _ in range(len(grid[0])):
-            l.append(False)
-        visited.append(l)
+    visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
     visited[0][0] = True
     _depthFirstSearch(visited, start_x, start_y)
+
+
+def breadthFirstSreach():
+    visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
+    
+            
+
 
 
 if __name__ == "__main__":
