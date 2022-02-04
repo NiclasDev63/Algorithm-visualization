@@ -2,18 +2,13 @@
 import turtle
 from collections import deque
 
-window = turtle.Screen()
-
-window.bgcolor("black")
-window.title("Algorithm testing")
-window.setup(1600, 900)
-
 start_x =  10
 start_y = 33
 
 end_x = 33
 end_y = 32
 
+# paints the WALLS
 class Wall(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
@@ -22,16 +17,19 @@ class Wall(turtle.Turtle):
         self.penup()
         self.speed(0)
 
+# paints the GOAL
 class Green(Wall):
     def __init__(self):
         Wall.__init__(self)
         self.color("green")
 
+# paints the START and the ALGORITHM
 class Red(Wall):
     def __init__(self):
         Wall.__init__(self)
         self.color("red")
 
+# The MAZE
 grid = [
 "1111111111111111111111111111111111",
 "1000000000000000000000000000000001",
@@ -69,12 +67,15 @@ grid = [
 "0000000000s00000000000000000000100",
 "0000000000000000000000000000000000"]
 
+
+# is used to paint a pixel
 def paint_blob(x, y, blob):
     screen_x = -500 + (x*24)
     screen_y = 400 - (y*24)
     blob.goto(screen_x, screen_y)
     blob.stamp()
 
+# paints the Maze
 def paint_maze(grid):
     for y in range(len(grid)):
         for x in range(len(grid[y])):
@@ -96,6 +97,8 @@ def paint_maze(grid):
             if char == "s":
                 paint_blob(x, y, red)
 
+
+# implements DFS
 def _depthFirstSearch(visited, x, y):
     visited[y][x] = True
 
@@ -116,13 +119,13 @@ def _depthFirstSearch(visited, x, y):
     if y - 1 > 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
         _depthFirstSearch(visited, x, y - 1)
 
-
+# creates visited list and calls the DFS function
 def depthFirstSearch():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
     visited[10][33] = True
     _depthFirstSearch(visited, start_x, start_y)
 
-
+# implements BFS
 def breadthFirstSreach():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
     queue = deque([[10, 33]])
@@ -131,7 +134,6 @@ def breadthFirstSreach():
         x, y = queue.popleft()
 
         if x == end_x and y == end_y:
-            print("Found")
             window.exitonclick()
         
         if not visited[x][y]:
@@ -152,11 +154,22 @@ def breadthFirstSreach():
             
 
 
-
+# Driver code
 if __name__ == "__main__":
+    choose_algorithm = int(input("Press 1 for BFS and 2 for DFS: ")) #You can choose betwenn two Algorithms
+
+
+    window = turtle.Screen()
+
+    window.bgcolor("black")
+    window.title("Algorithm testing")
+    window.setup(1600, 900)
     wall = Wall()
     green = Green()
     red = Red()
+
     paint_maze(grid)
-    breadthFirstSreach()
-    window.exitonclick()
+    if choose_algorithm == 1:
+        breadthFirstSreach()
+    else:
+        depthFirstSearch()
