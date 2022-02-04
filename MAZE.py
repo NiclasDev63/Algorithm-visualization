@@ -125,8 +125,30 @@ def depthFirstSearch():
 
 def breadthFirstSreach():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
-    queue = deque([10, 33])  
+    queue = deque([[10, 33]])
 
+    while queue:
+        x, y = queue.popleft()
+
+        if x == end_x and y == end_y:
+            print("Found")
+            window.exitonclick()
+        
+        if not visited[x][y]:
+            visited[x][y] = True
+            paint_blob(x, y, red)
+
+            if x + 1 < 35 and grid[y][x + 1] != "0":
+                queue.append([x + 1, y])
+ 
+            if  x - 1 > 0 and grid[y][x - 1] != "0":
+                queue.append([x - 1, y])
+
+            if y + 1 < 35 and grid[y + 1][x] != "0":
+                queue.append([x, y + 1])
+
+            if y - 1 > 0 and grid[y - 1][x] != "0":
+                queue.append([x, y - 1])
             
 
 
@@ -136,5 +158,5 @@ if __name__ == "__main__":
     green = Green()
     red = Red()
     paint_maze(grid)
-    depthFirstSearch()
+    breadthFirstSreach()
     window.exitonclick()
