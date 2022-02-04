@@ -1,5 +1,6 @@
 # Inspired by https://github.com/TheMorpheus407
 import turtle
+from collections import deque
 
 window = turtle.Screen()
 
@@ -118,13 +119,14 @@ def _depthFirstSearch(visited, x, y):
 
 def depthFirstSearch():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
-    visited[0][0] = True
+    visited[10][33] = True
     _depthFirstSearch(visited, start_x, start_y)
 
 
 def breadthFirstSreach():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
-    
+    queue = deque([10, 33])  
+
             
 
 
