@@ -1,30 +1,3 @@
-"""
-X: 33 Y: 32
-X: 31 Y: 32
-X: 29 Y: 32
-X: 27 Y: 32
-X: 13 Y: 19
-X: 12 Y: 18
-X: 7 Y: 19
-X: 8 Y: 18
-X: 32 Y: 32
-X: 30 Y: 32
-X: 31 Y: 33
-X: 31 Y: 31
-X: 28 Y: 32
-X: 14 Y: 19
-X: 12 Y: 19
-X: 8 Y: 19
-X: 6 Y: 19
-"""
-
-
-
-
-
-
-
-
 # Inspired by https://github.com/TheMorpheus407
 import turtle
 from collections import deque
