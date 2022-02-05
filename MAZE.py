@@ -1,3 +1,30 @@
+"""
+X: 33 Y: 32
+X: 31 Y: 32
+X: 29 Y: 32
+X: 27 Y: 32
+X: 13 Y: 19
+X: 12 Y: 18
+X: 7 Y: 19
+X: 8 Y: 18
+X: 32 Y: 32
+X: 30 Y: 32
+X: 31 Y: 33
+X: 31 Y: 31
+X: 28 Y: 32
+X: 14 Y: 19
+X: 12 Y: 19
+X: 8 Y: 19
+X: 6 Y: 19
+"""
+
+
+
+
+
+
+
+
 # Inspired by https://github.com/TheMorpheus407
 import turtle
 from collections import deque
@@ -28,6 +55,12 @@ class Red(Wall):
     def __init__(self):
         Wall.__init__(self)
         self.color("red")
+
+# paints the Path
+class Yellow(Wall):
+    def __init__(self):
+        Wall.__init__(self)
+        self.color("yellow")
 
 # The MAZE
 grid = [
@@ -128,30 +161,62 @@ def depthFirstSearch():
 # implements BFS
 def breadthFirstSreach():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
-    queue = deque([[10, 33]])
+    
+    pred = [[[-1, -1] for _ in range(len(grid[0]))]for _ in range(len(grid))]
+
+    start = [10, 33]
+
+    queue = deque([start])
+
+    pred[10][33] = [-1, -1]
+
 
     while queue:
+
+
         x, y = queue.popleft()
+        
 
         if x == end_x and y == end_y:
+            path = []
+
+            while(pred[x][y] != [-1, -1]):
+                path.append(pred[x][y])
+                print("X: " + str(x) + " Y: " + str(y))
+                x, y = pred[x][y]
+            
+            for i in range(len(path)-1, -1, -1):
+                x, y = path[i]
+                paint_blob(x, y, yellow)
             window.exitonclick()
         
-        if not visited[x][y]:
-            visited[x][y] = True
+        if not visited[y][x]:
+
+
+            visited[y][x] = True
             paint_blob(x, y, red)
+
 
             if x + 1 < 35 and grid[y][x + 1] != "0":
                 queue.append([x + 1, y])
+                if not visited[y][x + 1]:
+                    pred[x + 1][y] = [x, y]
  
             if  x - 1 > 0 and grid[y][x - 1] != "0":
                 queue.append([x - 1, y])
+                if not visited[y][x - 1]:
+                    pred[x - 1][y] = [x, y]
 
             if y + 1 < 35 and grid[y + 1][x] != "0":
                 queue.append([x, y + 1])
+                if not visited[y + 1][x]:
+                    pred[x][y + 1] = [x, y]
 
             if y - 1 > 0 and grid[y - 1][x] != "0":
                 queue.append([x, y - 1])
-            
+                if not visited[y - 1][x]:
+                    pred[x][y - 1] = [x, y]
+    
 
 
 # Driver code
@@ -167,6 +232,7 @@ if __name__ == "__main__":
     wall = Wall()
     green = Green()
     red = Red()
+    yellow = Yellow()
 
     paint_maze(grid)
     if choose_algorithm == 1:
