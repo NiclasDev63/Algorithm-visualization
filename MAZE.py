@@ -164,11 +164,10 @@ def breadthFirstSreach():
     
     pred = [[[-1, -1] for _ in range(len(grid[0]))]for _ in range(len(grid))]
 
-    start = [10, 33]
 
-    queue = deque([start])
+    queue = deque([[start_x, start_y]])
 
-    pred[10][33] = [-1, -1]
+    pred[start_x][start_y] = [-1, -1]
 
 
     while queue:
@@ -182,7 +181,6 @@ def breadthFirstSreach():
 
             while(pred[x][y] != [-1, -1]):
                 path.append(pred[x][y])
-                print("X: " + str(x) + " Y: " + str(y))
                 x, y = pred[x][y]
             
             for i in range(len(path)-1, -1, -1):
