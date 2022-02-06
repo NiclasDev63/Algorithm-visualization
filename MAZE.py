@@ -115,7 +115,6 @@ def paint_maze(grid):
 
 # implements DFS
 def _depthFirstSearch(visited, x, y, pred, end_x, end_y):
-    visited[y][x] = True
 
     pred[start_x][start_y] = [-1, -1]
 
@@ -125,31 +124,33 @@ def _depthFirstSearch(visited, x, y, pred, end_x, end_y):
     if [x, y] != [start_x, start_y]:
         paint_blob(x, y, red)
 
-    if x + 1 < len(grid[0]) and not visited[y][x + 1] and grid[y][x + 1] != "0":
-        if not visited[y][x + 1]:
-            pred[x + 1][y] = [x, y]
-        _depthFirstSearch(visited, x + 1, y, pred, end_x, end_y)
- 
-    if  x - 1 >= 0 and not visited[y][x - 1] and grid[y][x - 1] != "0":
-        if not visited[y][x - 1]:
-                    pred[x - 1][y] = [x, y]
-        _depthFirstSearch(visited, x - 1, y, pred, end_x, end_y)
+    if not visited[x][y]:
+        visited[x][y] = True
 
-    if y + 1 < len(grid) and not visited[y + 1][x] and grid[y + 1][x] != "0":
-        if not visited[y + 1][x]:
-                    pred[x][y + 1] = [x, y]
-        _depthFirstSearch(visited, x, y + 1, pred, end_x, end_y)
+        if x + 1 < len(grid[0]) and grid[y][x + 1] != "0":
+            if not visited[x + 1][y]:
+                pred[x + 1][y] = [x, y]
+                _depthFirstSearch(visited, x + 1, y, pred, end_x, end_y)
+    
+        if  x - 1 >= 0 and grid[y][x - 1] != "0":
+            if not visited[x - 1][y]:
+                pred[x - 1][y] = [x, y]
+                _depthFirstSearch(visited, x - 1, y, pred, end_x, end_y)
 
-    if y - 1 >= 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
-        if not visited[y - 1][x]:
-                    pred[x][y - 1] = [x, y]
-        _depthFirstSearch(visited, x, y - 1, pred, end_x, end_y)
+        if y + 1 < len(grid) and grid[y + 1][x] != "0":
+            if not visited[x][y + 1]:
+                pred[x][y + 1] = [x, y]
+                _depthFirstSearch(visited, x, y + 1, pred, end_x, end_y)
+
+        if y - 1 >= 0 and grid[y - 1][x] != "0":
+            if not visited[x][y - 1]:
+                pred[x][y - 1] = [x, y]
+                _depthFirstSearch(visited, x, y - 1, pred, end_x, end_y)
 
 # creates visited list and calls the DFS function
 def depthFirstSearch(start_x, start_y, end_x, end_y):
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
     pred = [[[-1, -1] for _ in range(len(grid[0]))]for _ in range(len(grid))]
-    visited[10][33] = True
     _depthFirstSearch(visited, start_x, start_y, pred, end_x, end_y)
 
 # implements BFS
@@ -168,30 +169,30 @@ def breadthFirstSreach(start_x, start_y, end_x, end_y):
         if x == end_x and y == end_y:
             shortestPath(pred)
         
-        if not visited[y][x]:
+        if not visited[x][y]:
 
-            visited[y][x] = True
+            visited[x][y] = True
             if [x, y] != [start_x, start_y]:
                 paint_blob(x, y, red)
 
             if x + 1 < len(grid[0]) and grid[y][x + 1] != "0":
                 queue.append([x + 1, y])
-                if not visited[y][x + 1]:
+                if not visited[x + 1][y]:
                     pred[x + 1][y] = [x, y]
  
             if  x - 1 >= 0 and grid[y][x - 1] != "0":
                 queue.append([x - 1, y])
-                if not visited[y][x - 1]:
+                if not visited[x - 1][y]:
                     pred[x - 1][y] = [x, y]
 
             if y + 1 < len(grid) and grid[y + 1][x] != "0":
                 queue.append([x, y + 1])
-                if not visited[y + 1][x]:
+                if not visited[x][y + 1]:
                     pred[x][y + 1] = [x, y]
 
             if y - 1 >= 0 and grid[y - 1][x] != "0":
                 queue.append([x, y - 1])
-                if not visited[y - 1][x]:
+                if not visited[x][y - 1]:
                     pred[x][y - 1] = [x, y]
 
 # paint the shortest path
