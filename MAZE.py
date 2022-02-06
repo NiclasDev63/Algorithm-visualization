@@ -17,17 +17,23 @@ class Green(Wall):
         Wall.__init__(self)
         self.color("green")
 
-# paints the START and the ALGORITHM
+# paints the ALGORITHM
 class Red(Wall):
     def __init__(self):
         Wall.__init__(self)
         self.color("red")
 
-# paints the Path
+# paints the PATH
 class Yellow(Wall):
     def __init__(self):
         Wall.__init__(self)
         self.color("yellow")
+
+# paints the START        
+class Blue(Wall):
+    def __init__(self):
+        Wall.__init__(self)
+        self.color("blue")
 
 # The MAZE
 grid = [
@@ -63,8 +69,8 @@ grid = [
 "1000100000101000100101010000000001",
 "1011101110101111111101010111110101",
 "1010001010000000000000010100010101",
-"101111101111111111111101110111111e",
-"0000000000s00000000000000000000100",
+"1011111s1111111111111101110111111e",
+"0000000000000000000000000000000100",
 "0000000000000000000000000000000000"]
 
 
@@ -100,7 +106,7 @@ def paint_maze(grid):
                 paint_blob(x, y, green)
 
             if char == "s":
-                paint_blob(x, y, red)
+                paint_blob(x, y, blue)
     return start_x, start_y, end_x, end_y
 
 
@@ -113,7 +119,8 @@ def _depthFirstSearch(visited, x, y, pred, end_x, end_y):
     if x == end_x and y == end_y:
         shortestPath(pred)
 
-    paint_blob(x, y, red)
+    if [x, y] != [start_x, start_y]:
+        paint_blob(x, y, red)
 
     if x + 1 < 35 and not visited[y][x + 1] and grid[y][x + 1] != "0":
         if not visited[y][x + 1]:
@@ -161,7 +168,8 @@ def breadthFirstSreach(start_x, start_y, end_x, end_y):
         if not visited[y][x]:
 
             visited[y][x] = True
-            paint_blob(x, y, red)
+            if [x, y] != [start_x, start_y]:
+                paint_blob(x, y, red)
 
             if x + 1 < 35 and grid[y][x + 1] != "0":
                 queue.append([x + 1, y])
@@ -193,7 +201,7 @@ def shortestPath(pred):
         path.append(pred[x][y])
         x, y = pred[x][y]
     
-    for i in range(len(path)-1, -1, -1):
+    for i in range(len(path)-2, -1, -1):
         x, y = path[i]
         paint_blob(x, y, yellow)
     window.exitonclick()
@@ -213,12 +221,15 @@ if __name__ == "__main__":
     window.bgcolor("black")
     window.title("Algorithm testing")
     window.setup(1600, 900)
+
     wall = Wall()
     green = Green()
     red = Red()
+    blue = Blue()
     yellow = Yellow()
 
     start_x, start_y, end_x, end_y = paint_maze(grid)
+
     if choose_algorithm == 1:
         breadthFirstSreach(start_x, start_y, end_x, end_y)
     else:
