@@ -200,6 +200,11 @@ def shortestPath(pred):
 
 # Driver code
 if __name__ == "__main__":
+    print("#######################################")
+    print("##                                   ##")
+    print("##        CHOOSE AN ALGORITHM        ##")
+    print("##                                   ##")
+    print("#######################################")
     choose_algorithm = int(input("Press 1 for BFS and 2 for DFS: ")) #You can choose betwenn two Algorithms
 
 
