@@ -189,7 +189,7 @@ def breadthFirstSreach():
                 queue.append([x, y - 1])
                 if not visited[y - 1][x]:
                     pred[x][y - 1] = [x, y]
-    
+# paint the shortest path
 def shortestPath(pred):
     path = []
 
