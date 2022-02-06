@@ -1,7 +1,6 @@
 # Inspired by https://github.com/TheMorpheus407
 import turtle
 from collections import deque
-from random import randint
 
 # paints the WALLS
 class Wall(turtle.Turtle):
