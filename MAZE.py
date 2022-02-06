@@ -1,6 +1,7 @@
 # Inspired by https://github.com/TheMorpheus407
 import turtle
 from collections import deque
+from random import randint
 
 # paints the WALLS
 class Wall(turtle.Turtle):
@@ -70,9 +71,11 @@ grid = [
 "1011101110101111111101010111110101",
 "1010001010000000000000010100010101",
 "1011111s1111111111111101110111111e",
-"0000000000000000000000000000000100",
-"0000000000000000000000000000000000"]
+"0000000000000000000000000000000100"]
 
+
+print(len(grid[0]))
+print(len(grid))
 
 # is used to paint a pixel
 def paint_blob(x, y, blob):
@@ -122,22 +125,22 @@ def _depthFirstSearch(visited, x, y, pred, end_x, end_y):
     if [x, y] != [start_x, start_y]:
         paint_blob(x, y, red)
 
-    if x + 1 < 35 and not visited[y][x + 1] and grid[y][x + 1] != "0":
+    if x + 1 < len(grid[0]) and not visited[y][x + 1] and grid[y][x + 1] != "0":
         if not visited[y][x + 1]:
             pred[x + 1][y] = [x, y]
         _depthFirstSearch(visited, x + 1, y, pred, end_x, end_y)
  
-    if  x - 1 > 0 and not visited[y][x - 1] and grid[y][x - 1] != "0":
+    if  x - 1 >= 0 and not visited[y][x - 1] and grid[y][x - 1] != "0":
         if not visited[y][x - 1]:
                     pred[x - 1][y] = [x, y]
         _depthFirstSearch(visited, x - 1, y, pred, end_x, end_y)
 
-    if y + 1 < 35 and not visited[y + 1][x] and grid[y + 1][x] != "0":
+    if y + 1 < len(grid) and not visited[y + 1][x] and grid[y + 1][x] != "0":
         if not visited[y + 1][x]:
                     pred[x][y + 1] = [x, y]
         _depthFirstSearch(visited, x, y + 1, pred, end_x, end_y)
 
-    if y - 1 > 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
+    if y - 1 >= 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
         if not visited[y - 1][x]:
                     pred[x][y - 1] = [x, y]
         _depthFirstSearch(visited, x, y - 1, pred, end_x, end_y)
@@ -171,22 +174,22 @@ def breadthFirstSreach(start_x, start_y, end_x, end_y):
             if [x, y] != [start_x, start_y]:
                 paint_blob(x, y, red)
 
-            if x + 1 < 35 and grid[y][x + 1] != "0":
+            if x + 1 < len(grid[0]) and grid[y][x + 1] != "0":
                 queue.append([x + 1, y])
                 if not visited[y][x + 1]:
                     pred[x + 1][y] = [x, y]
  
-            if  x - 1 > 0 and grid[y][x - 1] != "0":
+            if  x - 1 >= 0 and grid[y][x - 1] != "0":
                 queue.append([x - 1, y])
                 if not visited[y][x - 1]:
                     pred[x - 1][y] = [x, y]
 
-            if y + 1 < 35 and grid[y + 1][x] != "0":
+            if y + 1 < len(grid) and grid[y + 1][x] != "0":
                 queue.append([x, y + 1])
                 if not visited[y + 1][x]:
                     pred[x][y + 1] = [x, y]
 
-            if y - 1 > 0 and grid[y - 1][x] != "0":
+            if y - 1 >= 0 and grid[y - 1][x] != "0":
                 queue.append([x, y - 1])
                 if not visited[y - 1][x]:
                     pred[x][y - 1] = [x, y]
