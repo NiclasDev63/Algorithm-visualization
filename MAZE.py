@@ -105,31 +105,42 @@ def paint_maze(grid):
 
 
 # implements DFS
-def _depthFirstSearch(visited, x, y):
+def _depthFirstSearch(visited, x, y, pred):
     visited[y][x] = True
 
+    pred[start_x][start_y] = [-1, -1]
+
     if x == end_x and y == end_y:
-        window.exitonclick()
+        shortestPath(pred)
 
     paint_blob(x, y, red)
 
     if x + 1 < 35 and not visited[y][x + 1] and grid[y][x + 1] != "0":
-        _depthFirstSearch(visited, x + 1, y)
+        if not visited[y][x + 1]:
+            pred[x + 1][y] = [x, y]
+        _depthFirstSearch(visited, x + 1, y, pred)
  
     if  x - 1 > 0 and not visited[y][x - 1] and grid[y][x - 1] != "0":
-        _depthFirstSearch(visited, x - 1, y)
+        if not visited[y][x - 1]:
+                    pred[x - 1][y] = [x, y]
+        _depthFirstSearch(visited, x - 1, y, pred)
 
     if y + 1 < 35 and not visited[y + 1][x] and grid[y + 1][x] != "0":
-        _depthFirstSearch(visited, x, y + 1)
+        if not visited[y + 1][x]:
+                    pred[x][y + 1] = [x, y]
+        _depthFirstSearch(visited, x, y + 1, pred)
 
     if y - 1 > 0 and not visited[y - 1][x] and grid[y - 1][x] != "0":
-        _depthFirstSearch(visited, x, y - 1)
+        if not visited[y - 1][x]:
+                    pred[x][y - 1] = [x, y]
+        _depthFirstSearch(visited, x, y - 1, pred)
 
 # creates visited list and calls the DFS function
 def depthFirstSearch():
     visited = [[False for _ in range(len(grid[0]))]for _ in range(len(grid))]
+    pred = [[[-1, -1] for _ in range(len(grid[0]))]for _ in range(len(grid))]
     visited[10][33] = True
-    _depthFirstSearch(visited, start_x, start_y)
+    _depthFirstSearch(visited, start_x, start_y, pred)
 
 # implements BFS
 def breadthFirstSreach():
@@ -150,16 +161,7 @@ def breadthFirstSreach():
         
 
         if x == end_x and y == end_y:
-            path = []
-
-            while(pred[x][y] != [-1, -1]):
-                path.append(pred[x][y])
-                x, y = pred[x][y]
-            
-            for i in range(len(path)-1, -1, -1):
-                x, y = path[i]
-                paint_blob(x, y, yellow)
-            window.exitonclick()
+            shortestPath(pred)
         
         if not visited[y][x]:
 
@@ -188,7 +190,19 @@ def breadthFirstSreach():
                 if not visited[y - 1][x]:
                     pred[x][y - 1] = [x, y]
     
+def shortestPath(pred):
+    path = []
 
+    x = end_x
+    y = end_y
+    while(pred[x][y] != [-1, -1]):
+        path.append(pred[x][y])
+        x, y = pred[x][y]
+    
+    for i in range(len(path)-1, -1, -1):
+        x, y = path[i]
+        paint_blob(x, y, yellow)
+    window.exitonclick()
 
 # Driver code
 if __name__ == "__main__":
