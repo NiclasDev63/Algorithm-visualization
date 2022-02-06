@@ -72,10 +72,6 @@ grid = [
 "1011111s1111111111111101110111111e",
 "0000000000000000000000000000000100"]
 
-
-print(len(grid[0]))
-print(len(grid))
-
 # is used to paint a pixel
 def paint_blob(x, y, blob):
     screen_x = -500 + (x*24)
