@@ -336,7 +336,7 @@ if __name__ == "__main__":
     print("##        CHOOSE AN ALGORITHM        ##")
     print("##                                   ##")
     print("#######################################")
-    choose_algorithm = int(input("Press 1 for BFS / 2 for DFS and 3 for Dijkstra`s Algorithm: ")) #You can choose betwenn two Algorithms
+    choose_algorithm = int(input("Press 1 for BFS /  2 for DFS and 3 for Dijkstra`s Algorithm: ")) #You can choose betwenn two Algorithms
 
 
     window = turtle.Screen()
