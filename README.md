@@ -9,3 +9,5 @@ Currently implemented are:
 * Depth First Search (**unweighted** and **does not gurantee** the shortest path)
 
 * Dijkstra`s Algorithm (**weighted** and **gurantees** the shortest path)
+
+![image](https://user-images.githubusercontent.com/83044113/195900235-b4f66a0d-8c7e-4c36-b1cc-02a70b206b21.png)
